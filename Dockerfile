@@ -14,4 +14,12 @@ RUN set -x && \
 ENV DESIRED_VERSION=v2.9.1
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 
+# terraform
+ENV TF_VERSION=0.11.11
+RUN curl -fSsL \
+    https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip \
+    -o /tmp/terraform.zip && \
+    unzip /tmp/terraform.zip -d /usr/local/sbin && \
+    rm /tmp/terraform.zip
+
 RUN mkdir ~/.kube/
