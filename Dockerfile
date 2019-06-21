@@ -11,7 +11,7 @@ RUN set -x && \
       kubectl=1.11.5-00 \
       vim
 
-ENV DESIRED_VERSION=v2.9.1
+ENV DESIRED_VERSION=v2.11.0
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 
 # terraform
