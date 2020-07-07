@@ -16,6 +16,12 @@ RUN set -x && \
     unzip awscliv2.zip && \
     ./aws/install
 
+# Install aws-iam-authenticator
+RUN set -x && \
+    curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/aws-iam-authenticator && \
+    chmod +x ./aws-iam-authenticator && \
+    mv ./aws-iam-authenticator /usr/local/bin
+
 # Install eksctl
 RUN set -x && \
     curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && \
@@ -38,5 +44,3 @@ RUN curl -fSsL \
     unzip /tmp/terraform.zip -d /usr/local/sbin && \
     rm /tmp/terraform.zip
 
-
-#RUN mkdir ~/.kube/
