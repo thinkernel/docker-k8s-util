@@ -37,7 +37,7 @@ ENV DESIRED_VERSION=v3.2.4
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
 # terraform
-ENV TF_VERSION=0.12.24
+ENV TF_VERSION=0.13.0
 RUN curl -fSsL \
     https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip \
     -o /tmp/terraform.zip && \
