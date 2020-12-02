@@ -33,7 +33,7 @@ RUN set -x && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin
 
-ENV DESIRED_VERSION=v3.2.4
+ENV DESIRED_VERSION=v3.3.4
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
 # terraform
