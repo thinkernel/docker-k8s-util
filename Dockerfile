@@ -23,7 +23,7 @@ RUN set -x && \
     mv ./aws-iam-authenticator /usr/local/bin
 
 # Install eksctl
-ENV EKSCTL_VERSION=0.33.0
+ENV EKSCTL_VERSION=0.34.0
 RUN set -x && \
     curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && \
     mv /tmp/eksctl /usr/local/bin
