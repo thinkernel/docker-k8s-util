@@ -8,6 +8,8 @@ WORKDIR /root
 # Install vim
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		vim \
+		less \
+		groff \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Install aws cli
