@@ -32,11 +32,11 @@ RUN set -x && \
 
 # Install kubectl
 RUN set -x && \
-    curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl && \
+    curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.20.4/2021-04-12/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin
 
-ENV DESIRED_VERSION=v3.3.4
+ENV DESIRED_VERSION=v3.6.2
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
 # terraform
