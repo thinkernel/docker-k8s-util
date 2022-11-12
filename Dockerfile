@@ -1,18 +1,43 @@
-FROM openjdk:8-jdk
+FROM buildpack-deps:buster
 
 MAINTAINER zsx <thinkernel@gmail.com>
 
-RUN set -x && \
-    apt-get update && DEBIAN_FRONTEND=nointeractive apt-get install -y --no-install-recommends \
-      apt-transport-https &&\
-    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
-    echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && \
-    apt-get update && DEBIAN_FRONTEND=nointeractive apt-get install -y --no-install-recommends \
-      kubectl=1.11.5-00 \
-      vim
+# Set current dir
+WORKDIR /root
 
-ENV DESIRED_VERSION=v2.11.0
-RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+# Install vim
+RUN apt-get update && apt-get install -y --no-install-recommends \
+		vim \
+		less \
+		groff \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Install aws cli
+RUN set -x && \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install
+
+# Install aws-iam-authenticator
+RUN set -x && \
+    curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/aws-iam-authenticator && \
+    chmod +x ./aws-iam-authenticator && \
+    mv ./aws-iam-authenticator /usr/local/bin
+
+# Install eksctl
+ENV EKSCTL_VERSION=0.35.0
+RUN set -x && \
+    curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && \
+    mv /tmp/eksctl /usr/local/bin
+
+# Install kubectl
+RUN set -x && \
+    curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.20.4/2021-04-12/bin/linux/amd64/kubectl && \
+    chmod +x ./kubectl && \
+    mv ./kubectl /usr/local/bin
+
+ENV DESIRED_VERSION=v3.6.2
+RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
 # terraform
 ENV TF_VERSION=0.13.0
@@ -22,4 +47,3 @@ RUN curl -fSsL \
     unzip /tmp/terraform.zip -d /usr/local/sbin && \
     rm /tmp/terraform.zip
 
-RUN mkdir ~/.kube/
